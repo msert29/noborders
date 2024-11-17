@@ -10,6 +10,7 @@ export const config = {
     api: {
         bodyParser: false,
     },
+    maxDuration: 45
 };
 
 export default async function handler(
