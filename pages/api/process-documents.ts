@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import pdfParse from 'pdf-parse';
 import { anthropic } from '@ai-sdk/anthropic'
 import { generateText } from 'ai'
-import { default as formidable } from 'formidable';
+import formidable, { File } from 'formidable';
 import { promises as fs } from 'fs';
 
 // Disable the default body parser to handle files
@@ -23,6 +23,8 @@ export default async function handler(
     try {
         // Parse the multipart form data
         const form = formidable({});
+
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [fields, files] = await form.parse(req);
 
         const uploadedFiles = files.documents;
@@ -33,7 +35,7 @@ export default async function handler(
         console.log(`Processing ${uploadedFiles.length} files...`);
 
         const textResults = await Promise.all(
-            uploadedFiles.map(async (file: any) => {
+            uploadedFiles.map(async (file: File) => {
                 try {
                     console.log(`Processing file: ${file.originalFilename}`);
                     // Read the file from the temporary path
@@ -57,7 +59,7 @@ export default async function handler(
         const prompt = `You are acting as a UK visa clearance officer. Your task is to review an applicant's documents, generate impressions, note down important points, and make a decision on their visa application. Here are the applicant's documents:
 
 <applicant_documents>
-${textResults.map((result: any) =>
+${textResults.map((result: { filename: string | null; content: string; }) =>
             `<${result.filename}> File: <${result.filename}> \nContent:\n${result.content} </${result.filename}>\n---\n`
         ).join('\n')}
 </applicant_documents>

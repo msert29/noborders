@@ -67,7 +67,7 @@ export default function VisaVetter() {
             setResponse(result)
         } catch (error) {
             setResponse(null)
-            console.error(`Error: ${error.message || 'An unknown error occurred'}`)
+            console.error(`Error: ${error instanceof Error ? error.message : 'An unknown error occurred'}`)
         } finally {
             setIsProcessing(false)
         }
