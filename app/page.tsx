@@ -1,5 +1,5 @@
 import Image from "next/image";
-import VisaVetter from "./components/visa-vetter";
+import VisaVetter from "@/components/ui/visa-vetter";
 
 export default function Home() {
   return (
@@ -7,7 +7,7 @@ export default function Home() {
       <div className="container mx-auto px-4 py-8">
         <header className="mb-12 text-center">
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-            <span className="text-blue-600">vis</span><span className="text-cyan-600">ai</span>
+            <span className="text-green-700">No</span><span className="text-yellow-600">Borders</span>
           </h1>
           <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
             Upload your visa documents for instant verification using state of the art AI
@@ -69,7 +69,7 @@ export default function Home() {
         </main>
 
         <footer className="mt-16 text-center text-sm text-slate-500 dark:text-slate-400">
-          <p>© 2024 visai. All rights reserved.</p>
+          <p>© 2024 nobordersai. All rights reserved.</p>
         </footer>
       </div>
     </div>
