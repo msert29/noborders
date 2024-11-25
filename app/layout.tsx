@@ -14,7 +14,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Visai",
+  title: "No Borders AI",
   description: "Instantly verify your visa documents using our advanced AI-powered system",
 };
 

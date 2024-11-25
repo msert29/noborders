@@ -1,3 +1,19 @@
+# No Borders AI
+An AI-powered immigration document verification platform built with Next.js, leveraging advanced AI models to streamline document processing.
+
+## Tech Stack
+
+- **Framework**: Next.js 15.0
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS with shadcn/ui components
+- **AI Integration**: Anthropic AI SDK
+- **PDF Processing**: pdf-parse
+- **UI Components**: 
+  - Radix UI primitives
+  - Custom components with class-variance-authority
+  - Lucide icons
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
