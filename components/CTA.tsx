@@ -9,9 +9,9 @@ export default function CTA() {
           Ready to Predict Your Visa Outcome?
         </h2>
         <p className="text-xl mb-8 max-w-2xl mx-auto">
-          Don't leave your travel plans to chance. Use our AI-powered prediction
-          tool to get instant insights into your visa application's likelihood
-          of success.
+          Don&apos;t leave your travel plans to chance. Use our AI-powered
+          prediction tool to get instant insights into your visa
+          application&apos;s likelihood of success.
         </p>
         <button className="bg-white text-blue-600 font-bold py-3 px-8 rounded-full text-lg hover:bg-gray-100 transition-colors">
           Start Your Free Prediction

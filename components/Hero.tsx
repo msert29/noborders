@@ -14,8 +14,8 @@ function Errors(props: { errors?: string[] }) {
   if (!props.errors?.length) return null;
   return (
     <div className="d-flex justify-center items-center content-center text-red-800">
-      {props.errors.map((err) => (
-        <p>{err}</p>
+      {props.errors.map((err, idx) => (
+        <p key={idx}>{err}</p>
       ))}
     </div>
   );
