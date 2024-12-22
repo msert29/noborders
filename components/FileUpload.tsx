@@ -1,10 +1,7 @@
 'use client';
-import { Upload, X, FileImage, File, HelpCircle, Check } from 'lucide-react';
 import React, { useState, useCallback, ChangeEvent } from 'react';
-import { financialInformationSchema } from '@/lib/schemas';
+import { Upload, X, FileImage, File, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { z } from 'zod';
 
 type FileWithProgress = {
   file: File;
@@ -292,7 +289,7 @@ const FileUpload: React.FC<{
           <Button variant="outline" onClick={goPreviousAction}>
             Back
           </Button>
-          <Button>View predictions</Button>
+          <Button onClick={onSubmitAction}>View predictions</Button>
         </div>
       </div>
     </div>

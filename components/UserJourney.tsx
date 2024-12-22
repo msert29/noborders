@@ -7,7 +7,6 @@ import { FinancialInformationType, PersonalInformationType } from '@/lib/types';
 import { FinancialInformation } from '@/components/FinancialInformationForm';
 import { PersonalInformation } from '@/components/PersonalInformation';
 import FileUpload from '@/components/FileUpload';
-import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import React from 'react';
 import { z } from 'zod';

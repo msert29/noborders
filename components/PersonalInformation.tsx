@@ -1,28 +1,24 @@
 'use client';
 import {
-  COUNTRIES,
-  APPLYING_FOR_COUNTRY_LIST,
-  EMPLOYEMENT_STATUS_LIST,
-  CURRENCY_LIST,
-  GENDER_LIST,
-} from '@/lib/static-data';
-import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
 } from '@/components/ui/select';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import React, { Dispatch, SetStateAction } from 'react';
+import {
+  COUNTRIES,
+  APPLYING_FOR_COUNTRY_LIST,
+  GENDER_LIST,
+} from '@/lib/static-data';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
+import React from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z, ZodTypeAny } from 'zod';
+import { z } from 'zod';
 
 import {
   Form,
