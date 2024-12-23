@@ -21,7 +21,7 @@ export const personalInformationSchema = z.object({
   name: z.string().nonempty('Name is required.'),
   gender: z.string().nonempty('Gender is required.'),
   age: zodInputStringPipe(
-    z
+    z.coerce
       .number()
       .min(0, 'Age cannot be less than 0.')
       .max(150, 'Age cannot be greater than 150.')
@@ -51,6 +51,6 @@ export const financialInformationSchema = z.object({
   ),
   fromDate: z.date(),
   toDate: z.date(),
-  // fromDate: z.date().transform((date) => date.toISOString()),
-  // toDate: z.date().transform((date) => date.toISOString()),
+  // fromDate: z.date().transform((date) => date.toISOString().substring(0, 10)),
+  // toDate: z.date().transform((date) => date.toISOString().substring(0, 10)),
 });

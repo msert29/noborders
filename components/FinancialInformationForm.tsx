@@ -31,29 +31,30 @@ import {
 } from '@/components/ui/popover';
 import { financialInformationSchema } from '@/lib/schemas';
 import { Calendar as CalendarIcon } from 'lucide-react';
-import { FinancialInformationType } from '@/lib/types';
 import { Calendar } from '@/components/ui/calendar';
+import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 
 export const FinancialInformation: React.FC<{
   goPreviousAction: () => void;
-  formData: FinancialInformationType;
   setFinancialInformationAction: (
     data: z.infer<typeof financialInformationSchema>,
   ) => void;
-}> = ({ goPreviousAction, formData, setFinancialInformationAction }) => {
+}> = ({ goPreviousAction, setFinancialInformationAction }) => {
+  const searchParams = useSearchParams();
+
   const form = useForm<z.infer<typeof financialInformationSchema>>({
     resolver: zodResolver(financialInformationSchema),
     defaultValues: {
-      employmentType: formData?.employmentType || '',
-      currency: formData?.currency || '',
-      income: formData?.income || '',
-      expenditure: formData?.expenditure || '',
-      savings: formData?.savings || '',
-      fromDate: formData?.fromDate || undefined,
-      toDate: formData?.toDate || undefined,
+      employmentType: searchParams?.get('employmentType') || '',
+      currency: searchParams?.get('currency') || '',
+      income: searchParams?.get('income') || '',
+      expenditure: searchParams?.get('expenditure') || '',
+      savings: searchParams?.get('savings') || '',
+      fromDate: undefined,
+      toDate: undefined,
     },
   });
 

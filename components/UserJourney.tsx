@@ -6,9 +6,12 @@ import {
 import { FinancialInformationType, PersonalInformationType } from '@/lib/types';
 import { FinancialInformation } from '@/components/FinancialInformationForm';
 import { PersonalInformation } from '@/components/PersonalInformation';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import FileUpload from '@/components/FileUpload';
-import { useState } from 'react';
-import React from 'react';
+import { useRouter } from 'next/navigation';
+import { v4 as uuidv4 } from 'uuid';
+import { cn } from '@/lib/utils';
 import { z } from 'zod';
 
 const ProgressBarClass = ({ step }: { step: number }) => {
@@ -25,6 +28,12 @@ const ProgressBarClass = ({ step }: { step: number }) => {
 };
 
 const VisaApplicationForm = () => {
+  const router = useRouter();
+  const [uuid, setUUID] = useState<string | null>(null);
+  const [step, setStep] = useState(1);
+
+  const searchParams = useSearchParams();
+
   const [personalInformation, setPersonalInformation] =
     useState<PersonalInformationType>({
       visaCountry: '',
@@ -46,6 +55,50 @@ const VisaApplicationForm = () => {
       employmentType: '',
     });
 
+  useEffect(() => {
+    if (!searchParams?.get('uuid') || searchParams?.get('uuid') === null) {
+      const uuidValue = uuidv4();
+      setUUID(uuidValue);
+      router.push(`/upload?uuid=${uuidValue}`);
+    } else {
+      const uuidValue = searchParams?.get('uuid');
+      setUUID(uuidValue);
+      router.push(`/upload?uuid=${uuidValue}`);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!uuid) return; // handle initial render
+    const queryParams = new URLSearchParams(searchParams?.toString());
+
+    const step = queryParams.get('step');
+    if (step === '1') {
+      queryParams.set('step', '2');
+    }
+
+    if (uuid) {
+      queryParams.set('uuid', uuid);
+    }
+
+    const computedQueryParams = buildQueryParams(step || '1');
+    router.push(`/upload?${computedQueryParams}`);
+  }, [personalInformation, financialInformation]);
+
+  const buildQueryParams = (step: string): string => {
+    const queryParams = new URLSearchParams(searchParams?.toString());
+    queryParams.set('step', step);
+    queryParams.set('uuid', uuid as string);
+
+    Object.entries(personalInformation).forEach(([key, value]) => {
+      queryParams.set(key, String(value));
+    });
+    Object.entries(financialInformation).forEach(([key, value]) => {
+      queryParams.set(key, String(value));
+    });
+
+    return queryParams.toString();
+  };
+
   const handlePersonalInformationFormSubmit = (
     data: z.infer<typeof personalInformationSchema>,
   ) => {
@@ -53,6 +106,7 @@ const VisaApplicationForm = () => {
       ...prev,
       ...data,
     }));
+
     goToNextStep();
   };
 
@@ -63,14 +117,13 @@ const VisaApplicationForm = () => {
       ...prev,
       ...data,
     }));
+
     goToNextStep();
   };
 
   const handleFileUploadFormSubmit = () => {
     console.log('File upload successful');
   };
-
-  const [step, setStep] = useState(1);
 
   const goToNextStep = () => {
     if (step < 4) setStep((prev) => prev + 1);
@@ -102,7 +155,14 @@ const VisaApplicationForm = () => {
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-muted text-muted-foreground flex items-center justify-center text-sm">
+                  <div
+                    className={cn(
+                      'w-6 h-6 rounded-full flex items-center justify-center text-sm',
+                      step >= 2
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted text-muted-foreground',
+                    )}
+                  >
                     2
                   </div>
                   <span className="text-sm text-muted-foreground">
@@ -110,7 +170,14 @@ const VisaApplicationForm = () => {
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-muted text-muted-foreground flex items-center justify-center text-sm">
+                  <div
+                    className={cn(
+                      'w-6 h-6 rounded-full flex items-center justify-center text-sm',
+                      step >= 3
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted text-muted-foreground',
+                    )}
+                  >
                     3
                   </div>
                   <span className="text-sm text-muted-foreground">
@@ -118,7 +185,14 @@ const VisaApplicationForm = () => {
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-muted text-muted-foreground flex items-center justify-center text-sm">
+                  <div
+                    className={cn(
+                      'w-6 h-6 rounded-full flex items-center justify-center text-sm',
+                      step >= 4
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted text-muted-foreground',
+                    )}
+                  >
                     4
                   </div>
                   <span className="text-sm text-muted-foreground">
@@ -136,14 +210,12 @@ const VisaApplicationForm = () => {
         {/* Step Forms */}
         {step === 1 && (
           <PersonalInformation
-            formData={personalInformation}
             setPersonalInformationAction={handlePersonalInformationFormSubmit}
           />
         )}
         {step === 2 && (
           <FinancialInformation
             setFinancialInformationAction={handleFinancialInformationFormSubmit}
-            formData={financialInformation}
             goPreviousAction={goToPreviousStep}
           />
         )}

@@ -1,7 +1,8 @@
 'use client';
 import React, { useState, useCallback, ChangeEvent } from 'react';
-import { Upload, X, FileImage, File, Check } from 'lucide-react';
+import { Upload, X, FileImage, File } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 type FileWithProgress = {
   file: File;
@@ -175,124 +176,122 @@ const FileUpload: React.FC<{
   }, []);
 
   return (
-    <div className="w-full max-w-xl mx-auto p-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-semibold mb-2">Upload file</h1>
+    <Card>
+      <div className="w-full max-w-xl mx-auto p-6">
+        <div className="mb-6">
+          <h1 className="text-2xl font-semibold mb-2">Upload file</h1>
 
-        <div
-          className={`border-2 border-dashed rounded-lg p-8 transition-colors duration-200 ease-in-out relative ${
-            isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
-          }`}
-          onDragEnter={handleDrag}
-          onDragOver={handleDrag}
-          onDragLeave={handleDrag}
-          onDrop={handleDrop}
-        >
-          <div className="flex flex-col items-center justify-center gap-2">
-            <Upload className="w-12 h-12 text-gray-400" />
-            <p className="text-gray-600 text-center">
-              Drag and Drop file here or{' '}
-              <label className="text-blue-500 hover:text-blue-600 cursor-pointer">
-                Choose file
-                <input
-                  type="file"
-                  className="hidden"
-                  accept=".pdf,.jpg,.jpeg,.png"
-                  onChange={handleFileSelect}
-                  multiple
-                />
-              </label>
-            </p>
+          <div
+            className={`border-2 border-dashed rounded-lg p-8 transition-colors duration-200 ease-in-out relative ${
+              isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
+            }`}
+            onDragEnter={handleDrag}
+            onDragOver={handleDrag}
+            onDragLeave={handleDrag}
+            onDrop={handleDrop}
+          >
+            <div className="flex flex-col items-center justify-center gap-2">
+              <Upload className="w-12 h-12 text-gray-400" />
+              <p className="text-gray-600 text-center">
+                Drag and Drop file here or{' '}
+                <label className="text-blue-500 hover:text-blue-600 cursor-pointer">
+                  Choose file
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    onChange={handleFileSelect}
+                    multiple
+                  />
+                </label>
+              </p>
+            </div>
+          </div>
+
+          {error && <div className="mt-2 text-sm text-red-500">{error}</div>}
+
+          <div className="mt-4 text-sm text-gray-500">
+            <span>Supported formats: PDF, JPEG, PNG, JPG</span>
+            <span className="float-right">Maximum size: 25MB</span>
           </div>
         </div>
 
-        {error && <div className="mt-2 text-sm text-red-500">{error}</div>}
-
-        <div className="mt-4 text-sm text-gray-500">
-          <span>Supported formats: PDF, JPEG, PNG, JPG</span>
-          <span className="float-right">Maximum size: 25MB</span>
-        </div>
-      </div>
-
-      {files.length > 0 && (
-        <div className="space-y-4">
-          {files.map((file) => (
-            <div
-              key={file.id}
-              className="bg-white rounded-lg border p-4 relative"
-            >
-              <div className="flex items-center gap-3">
-                {file.previewUrl ? (
-                  <img
-                    src={file.previewUrl}
-                    alt="Preview"
-                    className="w-10 h-10 object-cover rounded"
-                  />
-                ) : (
-                  React.createElement(getFileIcon(file.file.type), {
-                    className: 'w-6 h-6 text-blue-600',
-                  })
-                )}
-                <div className="flex-1">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium">{file.file.name}</span>
-                    <button
-                      onClick={() => removeFile(file.id)}
-                      className="text-gray-400 hover:text-gray-600"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
-                    <div
-                      className={`h-2 rounded-full transition-all duration-300 ease-out ${
-                        file.isComplete ? 'bg-green-500' : 'bg-blue-500'
-                      }`}
-                      style={{ width: `${file.progress}%` }}
+        {files.length > 0 && (
+          <div className="space-y-4">
+            {files.map((file) => (
+              <div
+                key={file.id}
+                className="bg-white rounded-lg border p-4 relative"
+              >
+                <div className="flex items-center gap-3">
+                  {file.previewUrl ? (
+                    <img
+                      src={file.previewUrl}
+                      alt="Preview"
+                      className="w-10 h-10 object-cover rounded"
                     />
-                  </div>
-                  {file.isComplete && (
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-2 text-green-500 mb-2">
-                        <Check className="w-4 h-4" />
-                        <span className="text-sm">Upload complete</span>
-                      </div>
-                      <div className="flex-1">
-                        <select
-                          value={file.documentType || ''}
-                          onChange={(e) =>
-                            handleDocumentTypeChange(file.id, e.target.value)
-                          }
-                          className="w-full p-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                          <option value="" disabled>
-                            Select document type
-                          </option>
-                          {DOCUMENT_TYPES.map((type) => (
-                            <option key={type} value={type}>
-                              {type}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
+                  ) : (
+                    React.createElement(getFileIcon(file.file.type), {
+                      className: 'w-6 h-6 text-blue-600',
+                    })
                   )}
+                  <div className="flex-1">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">{file.file.name}</span>
+                      <button
+                        onClick={() => removeFile(file.id)}
+                        className="text-gray-400 hover:text-gray-600"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
+                      <div
+                        className={`h-2 rounded-full transition-all duration-300 ease-out ${
+                          file.isComplete ? 'bg-green-500' : 'bg-blue-500'
+                        }`}
+                        style={{ width: `${file.progress}%` }}
+                      />
+                    </div>
+                    {file.isComplete && (
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1">
+                          <select
+                            value={file.documentType || ''}
+                            onChange={(e) =>
+                              handleDocumentTypeChange(file.id, e.target.value)
+                            }
+                            className="w-full p-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          >
+                            <option value="" disabled>
+                              Select document type
+                            </option>
+                            {DOCUMENT_TYPES.map((type) => (
+                              <option key={type} value={type}>
+                                {type}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
 
-      <div className="mt-6 flex justify-end items-center">
-        <div className="space-x-3">
-          <Button variant="outline" onClick={goPreviousAction}>
-            Back
-          </Button>
-          <Button onClick={onSubmitAction}>View predictions</Button>
+        <div className="mt-6 flex justify-end items-center">
+          <div className="space-x-3">
+            <Button variant="outline" onClick={goPreviousAction}>
+              Back
+            </Button>
+            <Button onClick={onSubmitAction}>View predictions</Button>
+          </div>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 

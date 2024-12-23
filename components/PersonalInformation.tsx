@@ -29,24 +29,25 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { personalInformationSchema } from '@/lib/schemas';
-import { PersonalInformationType } from '@/lib/types';
+import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 
 export const PersonalInformation: React.FC<{
-  formData: PersonalInformationType;
   setPersonalInformationAction: (
     data: z.infer<typeof personalInformationSchema>,
   ) => void;
-}> = ({ formData, setPersonalInformationAction }) => {
+}> = ({ setPersonalInformationAction }) => {
+  const searchParams = useSearchParams();
+
   const form = useForm<z.infer<typeof personalInformationSchema>>({
     resolver: zodResolver(personalInformationSchema),
     defaultValues: {
-      visaCountry: formData?.visaCountry || '',
-      name: formData?.name || '',
-      gender: formData?.gender || '',
-      age: formData?.age || '',
-      address: formData?.address || '',
-      nationality: formData?.nationality || '',
+      visaCountry: searchParams?.get('visaCountry') || '',
+      name: searchParams?.get('name') || '',
+      gender: searchParams?.get('gender') || '',
+      age: searchParams?.get('age') || '',
+      address: searchParams?.get('address') || '',
+      nationality: searchParams?.get('nationality') || '',
     },
   });
 
