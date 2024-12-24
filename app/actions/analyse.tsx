@@ -16,15 +16,26 @@ const s3Client = new S3Client({
   },
 });
 
-async function createBucketIfNotExists(uuid: string) {
+function isAwsError(error: unknown): error is { name: string } {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'name' in error &&
+    typeof (error as { name: unknown }).name === 'string'
+  );
+}
+
+async function createBucketIfNotExists(uuid: string): Promise<string> {
   const bucketName = uuid;
+
   try {
     await s3Client.send(new CreateBucketCommand({ Bucket: bucketName }));
-  } catch (error: any) {
-    if (error.name !== 'BucketAlreadyExists') {
+  } catch (error: unknown) {
+    if (isAwsError(error) && error.name !== 'BucketAlreadyExists') {
       throw error;
     }
   }
+
   return bucketName;
 }
 

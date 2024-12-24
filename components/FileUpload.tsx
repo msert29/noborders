@@ -72,7 +72,6 @@ const FileUpload = ({ onUploadAction }: UploadFilesProps) => {
 
   const onSubmit = async (values: z.infer<typeof fileUploadSchema>) => {
     try {
-      console.log(values);
       setIsUploading(true);
       await onUploadAction(values.files);
       form.reset();
