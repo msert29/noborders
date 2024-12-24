@@ -290,3 +290,17 @@ export const EMPLOYEMENT_STATUS_LIST = [
 export const CURRENCY_LIST = ['GBP', 'USD', 'EUR'];
 
 export const GENDER_LIST = ['Male', 'Female'];
+
+export const FILE_UPLOAD_TYPE = [
+  'Passport',
+  'Bank Statement',
+  'Employment Letter',
+  'Travel Itinerary',
+  'Accommodation Proof',
+  'Payslip',
+  'Marriage Certificate',
+  'Birth Certificate',
+  'Other Supporting Document',
+  'Previous visa',
+  'Previous rejection letter',
+];

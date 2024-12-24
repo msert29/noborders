@@ -1,14 +1,19 @@
 'use client';
 import {
+  AnalyseAndUploadResult,
+  FinancialInformationType,
+  PersonalInformationType,
+} from '@/lib/types';
+import {
   financialInformationSchema,
   personalInformationSchema,
 } from '@/lib/schemas';
-import { FinancialInformationType, PersonalInformationType } from '@/lib/types';
 import { FinancialInformation } from '@/components/FinancialInformationForm';
 import { PersonalInformation } from '@/components/PersonalInformation';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import FileUpload from '@/components/FileUpload';
+// import FileUpload from '@/components/FileUpload';
 import { useRouter } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
 import { cn } from '@/lib/utils';
@@ -27,7 +32,22 @@ const ProgressBarClass = ({ step }: { step: number }) => {
   );
 };
 
-const VisaApplicationForm = () => {
+type AnalyseAndUploadProps = {
+  files: Array<{ file: File; documentType: string }>;
+  uuid: string;
+  personalInformation: PersonalInformationType;
+  financialInformation: FinancialInformationType;
+};
+
+type VisaApplicationFormProps = {
+  analyseAndUpload: (
+    data: AnalyseAndUploadProps,
+  ) => Promise<AnalyseAndUploadResult>;
+};
+
+const VisaApplicationForm: React.FC<VisaApplicationFormProps> = ({
+  analyseAndUpload,
+}) => {
   const router = useRouter();
   const [uuid, setUUID] = useState<string | null>(null);
   const [step, setStep] = useState(1);
@@ -42,7 +62,7 @@ const VisaApplicationForm = () => {
       gender: '',
       age: '',
       address: '',
-    });
+    } as PersonalInformationType);
 
   const [financialInformation, setFinancialInformation] =
     useState<FinancialInformationType>({
@@ -121,8 +141,17 @@ const VisaApplicationForm = () => {
     goToNextStep();
   };
 
-  const handleFileUploadFormSubmit = () => {
+  const handleFileUploadFormSubmit = async (
+    files: Array<{ file: File; documentType: string }>,
+  ) => {
     console.log('File upload successful');
+    console.log(files);
+    await analyseAndUpload({
+      files: files,
+      uuid: uuid as string,
+      personalInformation: personalInformation,
+      financialInformation: financialInformation,
+    });
   };
 
   const goToNextStep = () => {
@@ -220,10 +249,7 @@ const VisaApplicationForm = () => {
           />
         )}
         {step === 3 && (
-          <FileUpload
-            goPreviousAction={goToPreviousStep}
-            onSubmitAction={handleFileUploadFormSubmit}
-          />
+          <FileUpload onUploadAction={handleFileUploadFormSubmit} />
         )}
         {step === 4 && <h1>Payment Form</h1>}
       </div>

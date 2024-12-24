@@ -57,7 +57,7 @@ export const financialInformationSchema = z.object({
   toDate: z.date(),
 });
 
-export const FileUploadSchema = z.object({
+export const fileUploadSchema = z.object({
   files: z
     .array(
       z.object({

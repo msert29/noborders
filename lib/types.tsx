@@ -24,3 +24,9 @@ export type UploadResult = {
   url: string;
   documentType: string;
 };
+
+export type AnalyseAndUploadResult = {
+  success: boolean;
+  uploads?: Array<{ id: string; url: string }>;
+  error?: string;
+};

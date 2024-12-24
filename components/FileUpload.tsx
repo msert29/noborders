@@ -1,296 +1,188 @@
 'use client';
-import React, { useState, useCallback, ChangeEvent } from 'react';
-import { Upload, X, FileImage, File } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 
-type FileWithProgress = {
-  file: File;
-  id: string;
-  progress: number;
-  previewUrl?: string;
-  isComplete?: boolean;
-  documentType?: string;
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { FILE_UPLOAD_TYPE } from '@/lib/static-data';
+import { fileUploadSchema } from '@/lib/schemas';
+import { Button } from '@/components/ui/button';
+import { X, Upload, File } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { useState } from 'react';
+import { z } from 'zod';
+
+type UploadFilesProps = {
+  onUploadAction: (
+    files: Array<{ file: File; documentType: string }>,
+  ) => Promise<void>;
 };
 
-type AcceptedFileType =
-  | 'image/jpeg'
-  | 'image/png'
-  | 'image/jpg'
-  | 'application/pdf';
+const FileUpload = ({ onUploadAction }: UploadFilesProps) => {
+  const [dragActive, setDragActive] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
-const DOCUMENT_TYPES = [
-  'Passport',
-  'Passport Photo',
-  'Bank Statement',
-  'Employment Letter',
-  'Travel Itinerary',
-  'Accommodation Proof',
-  'Marriage Certificate',
-  'Birth Certificate',
-  'Other Supporting Document',
-];
+  const form = useForm<z.infer<typeof fileUploadSchema>>({
+    resolver: zodResolver(fileUploadSchema),
+    defaultValues: {
+      files: [],
+    },
+  });
 
-const ACCEPTED_TYPES: AcceptedFileType[] = [
-  'image/jpeg',
-  'image/png',
-  'image/jpg',
-  'application/pdf',
-];
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: 'files',
+  });
 
-const MAX_FILE_SIZE = 25 * 1024 * 1024; // 25MB in bytes
-
-const FileUpload: React.FC<{
-  goPreviousAction: () => void;
-  onSubmitAction: () => void;
-}> = ({ goPreviousAction, onSubmitAction }) => {
-  const [files, setFiles] = useState<FileWithProgress[]>([]);
-  const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const validateFile = (file: File): boolean => {
-    setError(null);
-
-    if (!ACCEPTED_TYPES.includes(file.type as AcceptedFileType)) {
-      setError(
-        'File type not supported. Please upload PDF or image files (JPEG, PNG, JPG)',
-      );
-      return false;
-    }
-
-    if (file.size > MAX_FILE_SIZE) {
-      setError('File size exceeds 25MB limit');
-      return false;
-    }
-
-    return true;
-  };
-
-  const createPreviewUrl = async (file: File): Promise<string | undefined> => {
-    if (!file.type.startsWith('image/')) return undefined;
-    return URL.createObjectURL(file);
-  };
-
-  const processFile = async (file: File) => {
-    if (!validateFile(file)) return;
-
-    const previewUrl = await createPreviewUrl(file);
-    const newFile: FileWithProgress = {
-      file,
-      id: Math.random().toString(36).substring(7),
-      progress: 0,
-      previewUrl,
-      isComplete: false,
-    };
-
-    setFiles((prev) => [...prev, newFile]);
-    simulateUpload(newFile.id);
-  };
-
-  const handleDrag = useCallback((e: React.DragEvent) => {
+  const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     if (e.type === 'dragenter' || e.type === 'dragover') {
-      setIsDragging(true);
-    } else if (e.type === 'dragleave') {
-      setIsDragging(false);
+      setDragActive(true);
+    } else {
+      setDragActive(false);
     }
-  }, []);
+  };
 
-  const handleDrop = useCallback(async (e: React.DragEvent) => {
+  const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsDragging(false);
+    setDragActive(false);
 
-    const droppedFiles = Array.from(e.dataTransfer.files);
-    for (const file of droppedFiles) {
-      await processFile(file);
-    }
-  }, []);
-
-  const simulateUpload = (fileId: string): void => {
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += 5;
-      setFiles((prev) =>
-        prev.map((file) =>
-          file.id === fileId
-            ? {
-                ...file,
-                progress: Math.min(progress, 100),
-                isComplete: progress >= 100,
-              }
-            : file,
-        ),
-      );
-
-      if (progress >= 100) {
-        clearInterval(interval);
-      }
-    }, 200);
-  };
-
-  const handleFileSelect = async (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = Array.from(e.target.files || []);
-    for (const file of selectedFiles) {
-      await processFile(file);
-    }
-    // Reset input value to allow selecting the same file again
-    e.target.value = '';
-  };
-
-  const removeFile = (fileId: string) => {
-    setFiles((prev) => {
-      const updatedFiles = prev.filter((file) => file.id !== fileId);
-      // Clean up preview URLs
-      prev.forEach((file) => {
-        if (file.id === fileId && file.previewUrl) {
-          URL.revokeObjectURL(file.previewUrl);
-        }
-      });
-      return updatedFiles;
+    const files = Array.from(e.dataTransfer.files);
+    files.forEach((file) => {
+      append({ documentType: '', file });
     });
   };
 
-  const getFileIcon = (fileType: string) => {
-    return fileType.startsWith('image/') ? FileImage : File;
-  };
-
-  const handleDocumentTypeChange = (fileId: string, type: string) => {
-    setFiles((prev) =>
-      prev.map((file) =>
-        file.id === fileId ? { ...file, documentType: type } : file,
-      ),
-    );
-  };
-
-  // Cleanup preview URLs on unmount
-  React.useEffect(() => {
-    return () => {
+  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const files = Array.from(e.target.files);
       files.forEach((file) => {
-        if (file.previewUrl) {
-          URL.revokeObjectURL(file.previewUrl);
-        }
+        append({ documentType: '', file });
       });
-    };
-  }, []);
+    }
+  };
+
+  const onSubmit = async (values: z.infer<typeof fileUploadSchema>) => {
+    try {
+      console.log(values);
+      setIsUploading(true);
+      await onUploadAction(values.files);
+      form.reset();
+    } catch (error) {
+      console.error('Upload failed:', error);
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   return (
-    <Card>
-      <div className="w-full max-w-xl mx-auto p-6">
-        <div className="mb-6">
-          <h1 className="text-2xl font-semibold mb-2">Upload file</h1>
-
-          <div
-            className={`border-2 border-dashed rounded-lg p-8 transition-colors duration-200 ease-in-out relative ${
-              isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
-            }`}
-            onDragEnter={handleDrag}
-            onDragOver={handleDrag}
-            onDrarsorgLeave={handleDrag}
-            onDrop={handleDrop}
-          >
-            <div className="flex flex-col items-center justify-center gap-2">
-              <Upload className="w-12 h-12 text-gray-400" />
-              <p className="text-gray-600 text-center">
-                Drag and Drop file here or{' '}
-                <label className="text-blue-500 hover:text-blue-600 cursor-pointer">
-                  Choose file
-                  <input
-                    type="file"
-                    className="hidden"
-                    accept=".pdf,.jpg,.jpeg,.png"
-                    onChange={handleFileSelect}
-                    multiple
-                  />
-                </label>
+    <Card className="p-6">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="p-6">
+            <div
+              className={`relative border-2 border-dashed rounded-lg p-8 text-center ${
+                dragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
+              }`}
+              onDragEnter={handleDrag}
+              onDragLeave={handleDrag}
+              onDragOver={handleDrag}
+              onDrop={handleDrop}
+            >
+              <Upload className="w-10 h-10 mx-auto mb-4 text-gray-400" />
+              <p className="text-lg mb-2">Drag and Drop file here or</p>
+              <label className="cursor-pointer text-blue-500 hover:text-blue-600">
+                Choose file
+                <input
+                  type="file"
+                  className="hidden"
+                  multiple
+                  accept=".pdf,.jpg,.jpeg,.png"
+                  onChange={handleFileInput}
+                />
+              </label>
+              <p className="mt-2 text-sm text-gray-500">
+                Supported formats: PDF, JPEG, PNG, JPG
+              </p>
+              <p className="text-sm text-gray-500">Maximum size: 25MB</p>
+              <p className="text-sm text-black font-bold">
+                Upload at least 5 files to continue
               </p>
             </div>
           </div>
 
-          {error && <div className="mt-2 text-sm text-red-500">{error}</div>}
-
-          <div className="mt-4 text-sm text-gray-500">
-            <span>Supported formats: PDF, JPEG, PNG, JPG</span>
-            <span className="float-right">Maximum size: 25MB</span>
-          </div>
-        </div>
-
-        {files.length > 0 && (
-          <div className="space-y-4">
-            {files.map((file) => (
-              <div
-                key={file.id}
-                className="bg-white rounded-lg border p-4 relative"
-              >
-                <div className="flex items-center gap-3">
-                  {file.previewUrl ? (
-                    <img
-                      src={file.previewUrl}
-                      alt="Preview"
-                      className="w-10 h-10 object-cover rounded"
-                    />
-                  ) : (
-                    React.createElement(getFileIcon(file.file.type), {
-                      className: 'w-6 h-6 text-blue-600',
-                    })
-                  )}
-                  <div className="flex-1">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium">{file.file.name}</span>
-                      <button
-                        onClick={() => removeFile(file.id)}
-                        className="text-gray-400 hover:text-gray-600"
-                      >
-                        <X className="w-5 h-5" />
-                      </button>
+          {fields.length > 0 && (
+            <div className="p-6">
+              <h3 className="font-semibold mb-4">Uploaded Files</h3>
+              <div className="space-y-4">
+                {fields.map((field, index) => (
+                  <div
+                    key={field.id}
+                    className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg"
+                  >
+                    <File className="w-5 h-5 text-gray-400" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm truncate">
+                        {form.getValues(`files.${index}.file`)?.name}
+                      </p>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
-                      <div
-                        className={`h-2 rounded-full transition-all duration-300 ease-out ${
-                          file.isComplete ? 'bg-green-500' : 'bg-blue-500'
-                        }`}
-                        style={{ width: `${file.progress}%` }}
-                      />
-                    </div>
-                    {file.isComplete && (
-                      <div className="flex items-center gap-2">
-                        <div className="flex-1">
-                          <select
-                            value={file.documentType || ''}
-                            onChange={(e) =>
-                              handleDocumentTypeChange(file.id, e.target.value)
-                            }
-                            className="w-full p-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    <FormField
+                      control={form.control}
+                      name={`files.${index}.documentType`}
+                      render={({ field }) => (
+                        <FormItem className="flex-shrink-0">
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
                           >
-                            <option value="" disabled>
-                              Select document type
-                            </option>
-                            {DOCUMENT_TYPES.map((type) => (
-                              <option key={type} value={type}>
-                                {type}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
-                    )}
+                            <SelectTrigger className="w-40">
+                              <SelectValue placeholder="Select type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {FILE_UPLOAD_TYPE.map((type) => (
+                                <SelectItem key={type} value={type}>
+                                  {type}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => remove(index)}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
                   </div>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          )}
 
-        <div className="mt-6 flex justify-end items-center">
-          <div className="space-x-3">
-            <Button variant="outline" onClick={goPreviousAction}>
-              Back
-            </Button>
-            <Button onClick={onSubmitAction}>View predictions</Button>
-          </div>
-        </div>
-      </div>
+          {fields.length > 0 && (
+            <div className="flex justify-end gap-4">
+              {fields.length >= 5 && (
+                <Button type="submit">
+                  {isUploading ? 'Uploading...' : 'Upload Files'}
+                </Button>
+              )}
+            </div>
+          )}
+        </form>
+      </Form>
     </Card>
   );
 };

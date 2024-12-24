@@ -5,7 +5,8 @@ import {
   PutObjectCommand,
   CreateBucketCommand,
 } from '@aws-sdk/client-s3';
-import { FileUploadSchema } from '@/lib/schemas';
+import { FinancialInformationType, PersonalInformationType } from '@/lib/types';
+import { AnalyseAndUploadResult } from '@/lib/types';
 
 const s3Client = new S3Client({
   region: process.env.AWS_REGION!,
@@ -16,7 +17,7 @@ const s3Client = new S3Client({
 });
 
 async function createBucketIfNotExists(uuid: string) {
-  const bucketName = `${process.env.AWS_BUCKET_NAME}-${uuid}`;
+  const bucketName = uuid;
   try {
     await s3Client.send(new CreateBucketCommand({ Bucket: bucketName }));
   } catch (error: any) {
@@ -27,35 +28,40 @@ async function createBucketIfNotExists(uuid: string) {
   return bucketName;
 }
 
-export async function analyseAndUpload(data: {
-  files: File[];
-  documentTypes: Record<string, string>;
+type AnalyseAndUploadProps = {
+  files: Array<{ file: File; documentType: string }>;
   uuid: string;
-}) {
+  personalInformation: PersonalInformationType;
+  financialInformation: FinancialInformationType;
+};
+
+export async function analyseAndUpload(
+  data: AnalyseAndUploadProps,
+): Promise<AnalyseAndUploadResult> {
   try {
     const bucketName = await createBucketIfNotExists(data.uuid);
 
     const uploadPromises = data.files.map(async (file) => {
-      const key = `${Date.now()}-${file.name}`;
-      const arrayBuffer = await file.arrayBuffer();
+      const key = `${Date.now()}-${file.file.name}`;
+      const arrayBuffer = await file.file.arrayBuffer();
 
       await s3Client.send(
         new PutObjectCommand({
           Bucket: bucketName,
           Key: key,
           Body: Buffer.from(arrayBuffer),
-          ContentType: file.type,
+          ContentType: file.file.type,
           Metadata: {
-            documentType: data.documentTypes[file.name],
+            documentType: file.file.type,
             uuid: data.uuid,
           },
+          Tagging: `type=${file.documentType}`,
         }),
       );
 
       return {
         id: key,
         url: `https://${bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`,
-        documentType: data.documentTypes[file.name],
       };
     });
 
