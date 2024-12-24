@@ -5,6 +5,8 @@ export type PersonalInformationType = {
   gender: string;
   age: string;
   address: string;
+  previous_visa_from_uk_eu_us: boolean;
+  previous_rejection_from_uk_eu_us: boolean;
 };
 
 export type FinancialInformationType = {
@@ -15,4 +17,10 @@ export type FinancialInformationType = {
   savings: string;
   toDate: Date | undefined;
   fromDate: Date | undefined;
+};
+
+export type UploadResult = {
+  id: string;
+  url: string;
+  documentType: string;
 };

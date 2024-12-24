@@ -187,7 +187,7 @@ const FileUpload: React.FC<{
             }`}
             onDragEnter={handleDrag}
             onDragOver={handleDrag}
-            onDragLeave={handleDrag}
+            onDrarsorgLeave={handleDrag}
             onDrop={handleDrop}
           >
             <div className="flex flex-col items-center justify-center gap-2">

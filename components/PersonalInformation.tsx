@@ -31,6 +31,7 @@ import {
 import { personalInformationSchema } from '@/lib/schemas';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
 
 export const PersonalInformation: React.FC<{
   setPersonalInformationAction: (
@@ -184,6 +185,44 @@ export const PersonalInformation: React.FC<{
                   <Textarea rows={4} {...field} onChange={field.onChange} />
                 </FormControl>
                 <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="previous_visa_from_uk_eu_us"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                <div className="space-y-0.5">
+                  <FormLabel>
+                    Have you previously held a visa from the UK, EU or US?
+                  </FormLabel>
+                </div>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="previous_rejection_from_uk_eu_us"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                <div className="space-y-0.5">
+                  <FormLabel>
+                    Have you previously been rejected from the UK, EU or US?
+                  </FormLabel>
+                </div>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
               </FormItem>
             )}
           />
