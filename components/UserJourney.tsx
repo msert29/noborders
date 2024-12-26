@@ -60,16 +60,18 @@ const VisaApplicationForm: React.FC<VisaApplicationFormProps> = ({
       nationality: '',
       name: '',
       gender: '',
-      age: '',
+      age: 0,
       address: '',
+      previous_visa_from_uk_eu_us: false,
+      previous_rejection_from_uk_eu_us: false,
     } as PersonalInformationType);
 
   const [financialInformation, setFinancialInformation] =
     useState<FinancialInformationType>({
-      income: '',
+      income: 0,
       currency: '',
-      expenditure: '',
-      savings: '',
+      expenditure: 0,
+      savings: 0,
       toDate: undefined,
       fromDate: undefined,
       employmentType: '',
@@ -144,8 +146,6 @@ const VisaApplicationForm: React.FC<VisaApplicationFormProps> = ({
   const handleFileUploadFormSubmit = async (
     files: Array<{ file: File; documentType: string }>,
   ) => {
-    console.log('File upload successful');
-    console.log(files);
     await analyseAndUpload({
       files: files,
       uuid: uuid as string,

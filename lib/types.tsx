@@ -3,7 +3,7 @@ export type PersonalInformationType = {
   nationality: string;
   name: string;
   gender: string;
-  age: string;
+  age: number;
   address: string;
   previous_visa_from_uk_eu_us: boolean;
   previous_rejection_from_uk_eu_us: boolean;
@@ -12,9 +12,9 @@ export type PersonalInformationType = {
 export type FinancialInformationType = {
   employmentType: string;
   currency: string;
-  income: string;
-  expenditure: string;
-  savings: string;
+  income: number;
+  expenditure: number;
+  savings: number;
   toDate: Date | undefined;
   fromDate: Date | undefined;
 };

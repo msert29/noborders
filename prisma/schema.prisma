@@ -19,3 +19,24 @@ model Waitlist {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model VisaApplication {
+  uuid                        String   @id @default(uuid())
+  visaCountry                 String
+  name                        String
+  gender                      String
+  age                         Int
+  address                     String?
+  nationality                 String
+  previousVisaFromUkEuUs      Boolean  @default(false)
+  previousRejectionFromUkEuUs Boolean  @default(false)
+  employmentType              String
+  currency                    String
+  income                      Int
+  expenditure                 Int
+  savings                     Int
+  fromDate                    String
+  toDate                      String
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
+}
