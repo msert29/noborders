@@ -249,7 +249,10 @@ const VisaApplicationForm: React.FC<VisaApplicationFormProps> = ({
           />
         )}
         {step === 3 && (
-          <FileUpload onUploadAction={handleFileUploadFormSubmit} />
+          <FileUpload
+            onUploadAction={handleFileUploadFormSubmit}
+            goPreviousAction={goToPreviousStep}
+          />
         )}
         {step === 4 && <h1>Payment Form</h1>}
       </div>

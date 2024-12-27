@@ -15,16 +15,17 @@ import { fileUploadSchema } from '@/lib/schemas';
 import { Button } from '@/components/ui/button';
 import { X, Upload, File } from 'lucide-react';
 import { Card } from '@/components/ui/card';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { z } from 'zod';
 
 type UploadFilesProps = {
   onUploadAction: (
     files: Array<{ file: File; documentType: string }>,
   ) => Promise<void>;
+  goPreviousAction: () => void;
 };
 
-const FileUpload = ({ onUploadAction }: UploadFilesProps) => {
+const FileUpload = ({ onUploadAction, goPreviousAction }: UploadFilesProps) => {
   const [dragActive, setDragActive] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -171,15 +172,20 @@ const FileUpload = ({ onUploadAction }: UploadFilesProps) => {
             </div>
           )}
 
-          {fields.length > 0 && (
-            <div className="flex justify-end gap-4">
-              {fields.length >= 5 && (
-                <Button type="submit">
-                  {isUploading ? 'Uploading...' : 'Upload Files'}
-                </Button>
-              )}
-            </div>
-          )}
+          <div className="flex flex-col justify-between md:flex-row gap-4 md:justify-end">
+            <Button
+              className="w-full md:w-1/6"
+              variant="outline"
+              onClick={goPreviousAction}
+            >
+              Back
+            </Button>
+            {fields.length >= 5 && (
+              <Button type="submit" className="w-full md:w-1/6">
+                {isUploading ? 'Uploading...' : 'Upload Files'}
+              </Button>
+            )}
+          </div>
         </form>
       </Form>
     </Card>
