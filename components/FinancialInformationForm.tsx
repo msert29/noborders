@@ -106,17 +106,13 @@ export const FinancialInformation: React.FC<{
                     </SelectTrigger>
                     <SelectContent>
                       {CURRENCY_LIST.map((currency) => (
-                        <SelectItem key={currency} value={currency}>
-                          {currency}
+                        <SelectItem key={currency.name} value={currency.name}>
+                          {currency.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </FormControl>
-                <FormDescription>
-                  Please convert from your local currency to available
-                  currencies
-                </FormDescription>
               </FormItem>
             )}
           />
