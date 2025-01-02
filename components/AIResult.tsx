@@ -5,29 +5,7 @@ import { useTypingAnimation } from '@/app/hooks/useTypingAnimation';
 import { CheckCircle, AlertTriangle, Stamp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
-
-const formatTextContent = (text: string) => {
-  // Split the text into lines
-  const lines = text.split('\n');
-
-  // Process each line
-  const formattedLines = lines.map((line) => {
-    // Check for numbered points (e.g., "1.", "2.", etc.)
-    const numberMatch = line.match(/^\d+\./);
-    if (numberMatch) {
-      // Replace the number with a bullet point
-      return `• ${line.slice(numberMatch[0].length).trim()}`;
-    }
-    // Check for sub-bullets (indented with - or *)
-    if (line.trim().startsWith('-') || line.trim().startsWith('*')) {
-      // Add some indentation for sub-bullets
-      return `  ${line.trim().replace(/^[-*]/, '•')}`;
-    }
-    return line;
-  });
-
-  return formattedLines.join('\n');
-};
+import Markdown from 'react-markdown';
 
 export interface AIResultProps {
   analysis: string;
@@ -50,35 +28,15 @@ export const AIResult: React.FC<{
   ];
 
   const { displayedText: analysisText, isComplete: analysisComplete } =
-    useTypingAnimation(
-      formatTextContent(result.analysis),
-      20,
-      currentSection >= 0,
-    );
+    useTypingAnimation(result.analysis, 20, currentSection >= 0);
   const { displayedText: issuesText, isComplete: issuesComplete } =
-    useTypingAnimation(
-      formatTextContent(result.issues),
-      20,
-      currentSection >= 1,
-    );
+    useTypingAnimation(result.issues, 20, currentSection >= 1);
   const { displayedText: suggestionText, isComplete: suggestionComplete } =
-    useTypingAnimation(
-      formatTextContent(result.suggestion),
-      20,
-      currentSection >= 2,
-    );
+    useTypingAnimation(result.suggestion, 20, currentSection >= 2);
   const { displayedText: completenessText, isComplete: completenessComplete } =
-    useTypingAnimation(
-      formatTextContent(result.completeness),
-      20,
-      currentSection >= 3,
-    );
+    useTypingAnimation(result.completeness, 20, currentSection >= 3);
   const { displayedText: decisionText, isComplete: decisionComplete } =
-    useTypingAnimation(
-      formatTextContent(result.decision),
-      20,
-      currentSection >= 4,
-    );
+    useTypingAnimation(result.decision, 20, currentSection >= 4);
 
   useEffect(() => {
     if (currentSection < sections.length - 1) {
@@ -206,7 +164,9 @@ function AnimatedSection({ title, content, icon }: AnimatedSectionProps) {
         {icon}
         <span className="ml-2">{title}</span>
       </h2>
-      <div className="text-lg whitespace-pre-wrap">{content}</div>
+      <div className="text-lg">
+        <Markdown>{content}</Markdown>
+      </div>
     </motion.div>
   );
 }
