@@ -42,10 +42,12 @@ model VisaApplication {
 }
 
 model PredictionResult {
-  uuid         String @id @default(cuid())
-  analysis     String @db.Text
-  issues       String @db.Text
-  suggestion   String @db.Text
-  completeness String @db.Text
-  decision     String @db.Text
+  uuid         String   @id @default(cuid())
+  analysis     String   @db.Text
+  issues       String   @db.Text
+  suggestion   String   @db.Text
+  completeness String   @db.Text
+  decision     String   @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
