@@ -8,6 +8,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import AIProgressDialog from '@/components/AIProgressDialog';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FILE_UPLOAD_TYPE } from '@/lib/static-data';
@@ -27,7 +28,7 @@ type UploadFilesProps = {
 
 const FileUpload = ({ onUploadAction, goPreviousAction }: UploadFilesProps) => {
   const [dragActive, setDragActive] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
+  const [isUploading, setIsUploading] = useState(true);
 
   const form = useForm<z.infer<typeof fileUploadSchema>>({
     resolver: zodResolver(fileUploadSchema),
@@ -187,6 +188,7 @@ const FileUpload = ({ onUploadAction, goPreviousAction }: UploadFilesProps) => {
             )}
           </div>
         </form>
+        {isUploading && <AIProgressDialog />}
       </Form>
     </Card>
   );

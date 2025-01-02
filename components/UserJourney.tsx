@@ -50,7 +50,7 @@ const VisaApplicationForm: React.FC<VisaApplicationFormProps> = ({
 }) => {
   const router = useRouter();
   const [uuid, setUUID] = useState<string | null>(null);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
 
   const searchParams = useSearchParams();
 
