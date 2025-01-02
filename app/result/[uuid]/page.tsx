@@ -1,4 +1,5 @@
-import { AIResult, AIResultProps } from '@/components/AIResult';
+// import { AIResult, AIResultProps } from '@/components/AIResult';
+import AIResult from '@/components/AIResult';
 import { Suspense } from 'react';
 
 export default async function Page({
@@ -9,7 +10,7 @@ export default async function Page({
   // Fetch the data with uuid in the future!
   const { uuid } = await params;
   console.log(uuid);
-  const result: AIResultProps = {
+  const result = {
     analysis:
       '\nI have reviewed the provided documentation carefully and here is my step-by-step analysis:\n\n1. Passport Information:\n- Diplomatic passport from Kyrgyz Republic\n- Holder: Uson Janybaevich Asanov\n- Issue Date: 09/08/2019\n- Expiry Date: 09/12/2020\n- The passport is a diplomatic type (PD)\n\n2. Bank Statement Review:\n- Account holder: John Smith\n- Located in US (Brownsville, TX)\n- Significant balance: $591,800.00\n- Recent large transactions: $500,000 transfer in, $80,000 transfer out\n- Regular monthly payments showing established financial patterns\n\n3. Cover Letter:\n- Appears to be a template with unfilled fields\n- Missing crucial information including:\n  * Actual applicant details\n  * Purpose of visit\n  * Period of stay\n  * Company information\n  * Financial responsibility declarations\n\n4. Cross-Document Analysis:\n- Severe mismatch between passport holder name and bank account holder\n- Geographic inconsistency: US-based bank account vs. Kyrgyz passport\n- No clear connection established between financial resources and applicant\n- Cover letter template is incomplete, providing no supporting information\n',
     issues:
