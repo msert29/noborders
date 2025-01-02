@@ -1,8 +1,5 @@
 'use client';
-
-import { CheckCircle, AlertTriangle, Stamp } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useTypingAnimation = (
   text: string,
