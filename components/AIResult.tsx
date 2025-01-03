@@ -24,6 +24,7 @@ export interface AIResultProps {
     suggestion: string;
     completeness: string;
     decision: string;
+    paid: boolean;
   };
 }
 
