@@ -10,6 +10,7 @@ import {
 } from '@/lib/schemas';
 import { FinancialInformation } from '@/components/FinancialInformationForm';
 import { PersonalInformation } from '@/components/PersonalInformation';
+import LanguageDropdown from '@/components/LanguageDropdown';
 import { Dictionary } from '@/app/[lang]/dictionaries';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
@@ -234,6 +235,9 @@ const VisaApplicationForm: React.FC<VisaApplicationFormProps> = ({
                   </span>
                 </div>
               </div>
+            </div>
+            <div className="ml-auto">
+              <LanguageDropdown pathname={pathname as string} />
             </div>
           </div>
           <div className="w-full h-2 bg-muted rounded-full">
