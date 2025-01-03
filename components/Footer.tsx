@@ -1,6 +1,7 @@
+import { Dictionary } from '@/app/[lang]/dictionaries';
 import Link from 'next/link';
 
-export default function Footer() {
+export default function Footer({ dictionary }: { dictionary: Dictionary }) {
   return (
     <footer className="py-12 border-t border-white/10">
       <div className="container mx-auto px-4">
@@ -15,19 +16,19 @@ export default function Footer() {
               href="#"
               className="text-gray-400 hover:text-white transition-colors"
             >
-              Privacy
+              {dictionary.landing.privacy}
             </Link>
             <Link
               href="#"
               className="text-gray-400 hover:text-white transition-colors"
             >
-              Terms
+              {dictionary.landing.terms}
             </Link>
             <Link
               href="#"
               className="text-gray-400 hover:text-white transition-colors"
             >
-              Contact
+              {dictionary.landing.contact}
             </Link>
           </nav>
         </div>

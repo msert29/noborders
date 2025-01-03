@@ -1,0 +1,76 @@
+{
+  "landing": {
+    "scrollTitle": "Powered by advanced AI technology",
+    "title": "Predict your visa outcome with AI precision",
+    "subTitle": "Advanced AI-powered predictions for the UK and Schengen tourist visa applications.",
+    "enterEmail": "Enter your email",
+    "joinWaitlist": "Join waitlist",
+    "aiPowered":{
+      "title": "AI-Powered Analysis",
+      "text": "Advanced machine learning algorithms analyse your application data."
+    },
+    "accuracy": {
+        "title": "95% Accuracy",
+        "text": "High prediction accuracy based on extensive historical data. Tips on improving your chances."
+    },
+    "results": {
+      "title": "Instant result",
+      "text": "Get your visa application prediction in seconds, not days."
+    },
+    "secure": {
+      "title": "Secure",
+      "text": "Your data is encrypted and protected with enterprise-grade security."
+    },
+    "joinTitle": "Join the maintainers and contributors to the largest visa prediction platform",
+    "ftaHeader": "Be among the first to access our AI-powered visa prediction platform. Early members receive exclusive benefits and priority access to new features.",
+    "thanksForJoining": "Thanks for joining our waitlist, you will receive updates once we launch \uD83D\uDE80",
+    "requestEarlyAccess": "Request early access",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "contact": "Contact"
+  },
+  "userJourney": {
+    "back": "Back",
+    "next": "Next",
+    "viewResults": "View Results",
+    "personalInformation": {
+      "title": "Personal Information",
+      "applyingFor": "Which country are you applying for? *",
+      "applyingForPlaceholder": "Select your country",
+      "nationality": "What is your nationality? *",
+      "nationalityPlaceholder": "Select country",
+      "fullName": "Full name *",
+      "gender": "Gender *",
+      "genderPlaceholder": "Select your gender",
+      "age": "Age *",
+      "address": "Address details",
+      "previousApproval": "Have you previously held a visa from the UK, EU or US? *",
+      "previousRejection": "Have you previously been rejected from the UK, EU or US?"
+    },
+    "financialInformation": {
+      "title": "Financial Information",
+      "employmentType": "Employment type *",
+      "employmentTypePlaceholder": "Select employment type",
+      "currency": "Select your currency *",
+      "monthlyIncome": "Your monthly gross income*",
+      "monthlyExpenditure": "Your monthly expenditure*",
+      "savings": "Do you have any savings? *",
+      "dateOfEntry": "Date of entry *",
+      "dateOfDeparture": "Date of departure *"
+    },
+    "uploadDocuments": {
+      "title": "Upload Documents",
+      "dragAndDrop": "Drag and Drop file here or",
+      "chooseFile": "Choose file",
+      "supportedFormat": "Supported formats: PDF, JPEG, PNG, JPG\n\nMaximum size: 25MB",
+      "minimumUpload": "Upload at least 5 files to continue\n\n"
+    },
+    "submission": {
+      "title": "Submission",
+      "reviewPersonal": "Reviewing your personal information",
+      "reviewFinancial": "Reviewing your financial information",
+      "reviewDocuments": "Verifying your documents",
+      "outcome": "Determining possible visa outcome"
+    }
+  }
+}

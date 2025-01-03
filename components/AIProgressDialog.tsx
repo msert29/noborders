@@ -1,20 +1,24 @@
 'use client';
 
+import { Dictionary } from '@/app/[lang]/dictionaries';
 import { Button } from '@/components/ui/button';
 import { Check, Loader2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-const steps = [
-  'Reviewing your personal information',
-  'Reviewing your financial information',
-  'Verifying your documents',
-  'Determining possible visa outcome',
-];
-
-export default function AIProgressDialog() {
+export default function AIProgressDialog({
+  dictionary,
+}: {
+  dictionary: Dictionary;
+}) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
+  const steps = [
+    dictionary.userJourney.submission.reviewPersonal,
+    dictionary.userJourney.submission.reviewFinancial,
+    dictionary.userJourney.submission.reviewDocuments,
+    dictionary.userJourney.submission.outcome,
+  ];
 
   useEffect(() => {
     const timer = setInterval(() => {

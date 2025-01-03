@@ -29,6 +29,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { personalInformationSchema } from '@/lib/schemas';
+import { Dictionary } from '@/app/[lang]/dictionaries';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
@@ -37,7 +38,8 @@ export const PersonalInformation: React.FC<{
   setPersonalInformationAction: (
     data: z.infer<typeof personalInformationSchema>,
   ) => void;
-}> = ({ setPersonalInformationAction }) => {
+  dictionary: Dictionary;
+}> = ({ setPersonalInformationAction, dictionary }) => {
   const searchParams = useSearchParams();
 
   const form = useForm<z.infer<typeof personalInformationSchema>>({
@@ -62,18 +64,25 @@ export const PersonalInformation: React.FC<{
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-            Personal information
+            {dictionary.userJourney.personalInformation.title}
           </h4>
           <FormField
             control={form.control}
             name="visaCountry"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Which country are you applying for? *</FormLabel>
+                <FormLabel>
+                  {dictionary.userJourney.personalInformation.applyingFor}
+                </FormLabel>
                 <FormControl>
                   <Select {...field} onValueChange={field.onChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select country" />
+                      <SelectValue
+                        placeholder={
+                          dictionary.userJourney.personalInformation
+                            .applyingForPlaceholder
+                        }
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       {APPLYING_FOR_COUNTRY_LIST.map((country) => (
@@ -93,11 +102,18 @@ export const PersonalInformation: React.FC<{
             name="nationality"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>What is your nationality? *</FormLabel>
+                <FormLabel>
+                  {dictionary.userJourney.personalInformation.nationality}
+                </FormLabel>
                 <FormControl>
                   <Select {...field} onValueChange={field.onChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select country" />
+                      <SelectValue
+                        placeholder={
+                          dictionary.userJourney.personalInformation
+                            .nationalityPlaceholder
+                        }
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       {COUNTRIES.map((country) => (
@@ -117,7 +133,9 @@ export const PersonalInformation: React.FC<{
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Full name *</FormLabel>
+                <FormLabel>
+                  {dictionary.userJourney.personalInformation.fullName}
+                </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="John Doe"
@@ -134,11 +152,18 @@ export const PersonalInformation: React.FC<{
             name="gender"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Gender *</FormLabel>
+                <FormLabel>
+                  {dictionary.userJourney.personalInformation.gender}
+                </FormLabel>
                 <FormControl>
                   <Select {...field} onValueChange={field.onChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select your gender" />
+                      <SelectValue
+                        placeholder={
+                          dictionary.userJourney.personalInformation
+                            .genderPlaceholder
+                        }
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       {GENDER_LIST.map((gender) => (
@@ -157,7 +182,9 @@ export const PersonalInformation: React.FC<{
             name="age"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Age *</FormLabel>
+                <FormLabel>
+                  {dictionary.userJourney.personalInformation.age}
+                </FormLabel>
                 <FormControl>
                   <Input
                     max={150}
@@ -180,7 +207,9 @@ export const PersonalInformation: React.FC<{
             name="address"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Address details</FormLabel>
+                <FormLabel>
+                  {dictionary.userJourney.personalInformation.address}
+                </FormLabel>
                 <FormControl>
                   <Textarea rows={4} {...field} onChange={field.onChange} />
                 </FormControl>
@@ -195,7 +224,10 @@ export const PersonalInformation: React.FC<{
               <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                 <div className="space-y-0.5">
                   <FormLabel>
-                    Have you previously held a visa from the UK, EU or US?
+                    {
+                      dictionary.userJourney.personalInformation
+                        .previousApproval
+                    }
                   </FormLabel>
                 </div>
                 <FormControl>
@@ -214,7 +246,10 @@ export const PersonalInformation: React.FC<{
               <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                 <div className="space-y-0.5">
                   <FormLabel>
-                    Have you previously been rejected from the UK, EU or US?
+                    {
+                      dictionary.userJourney.personalInformation
+                        .previousRejection
+                    }
                   </FormLabel>
                 </div>
                 <FormControl>
@@ -228,7 +263,7 @@ export const PersonalInformation: React.FC<{
           />
           <div className="flex justify-end ">
             <Button className="w-full md:w-1/6" type="submit">
-              Next
+              {dictionary.userJourney.next}
             </Button>
           </div>
         </form>

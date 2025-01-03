@@ -14,6 +14,10 @@ const nextConfig: NextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  // i18n: {
+  //   locales: ['en', 'fr', 'ar', 'tr', 'ur', 'hi'],
+  //   defaultLocale: 'en',
+  // },
 };
 
 export default nextConfig;

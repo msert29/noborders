@@ -31,6 +31,7 @@ import {
 } from '@/components/ui/popover';
 import { financialInformationSchema } from '@/lib/schemas';
 import { Calendar as CalendarIcon } from 'lucide-react';
+import { Dictionary } from '@/app/[lang]/dictionaries';
 import { Calendar } from '@/components/ui/calendar';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -42,7 +43,8 @@ export const FinancialInformation: React.FC<{
   setFinancialInformationAction: (
     data: z.infer<typeof financialInformationSchema>,
   ) => void;
-}> = ({ goPreviousAction, setFinancialInformationAction }) => {
+  dictionary: Dictionary;
+}> = ({ goPreviousAction, setFinancialInformationAction, dictionary }) => {
   const searchParams = useSearchParams();
 
   const form = useForm<z.infer<typeof financialInformationSchema>>({
@@ -67,18 +69,25 @@ export const FinancialInformation: React.FC<{
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-            Financial Information
+            {dictionary.userJourney.financialInformation.title}
           </h4>
           <FormField
             control={form.control}
             name="employmentType"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Employment type*</FormLabel>
+                <FormLabel>
+                  {dictionary.userJourney.financialInformation.employmentType}
+                </FormLabel>
                 <FormControl>
                   <Select {...field} onValueChange={field.onChange}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select your employment type" />
+                      <SelectValue
+                        placeholder={
+                          dictionary.userJourney.financialInformation
+                            .employmentTypePlaceholder
+                        }
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       {EMPLOYEMENT_STATUS_LIST.map((workType) => (
@@ -98,7 +107,9 @@ export const FinancialInformation: React.FC<{
             name="currency"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Select your currency*</FormLabel>
+                <FormLabel>
+                  {dictionary.userJourney.financialInformation.currency}
+                </FormLabel>
                 <FormControl>
                   <Select {...field} onValueChange={field.onChange}>
                     <SelectTrigger>
@@ -121,7 +132,9 @@ export const FinancialInformation: React.FC<{
             name="income"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Your monthly Gross income*</FormLabel>
+                <FormLabel>
+                  {dictionary.userJourney.financialInformation.monthlyIncome}
+                </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="2,500"
@@ -138,7 +151,12 @@ export const FinancialInformation: React.FC<{
             name="expenditure"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Your monthly expenditure*</FormLabel>
+                <FormLabel>
+                  {
+                    dictionary.userJourney.financialInformation
+                      .monthlyExpenditure
+                  }
+                </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="1,500"
@@ -155,7 +173,9 @@ export const FinancialInformation: React.FC<{
             name="savings"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Do you have any savings?</FormLabel>
+                <FormLabel>
+                  {dictionary.userJourney.financialInformation.savings}
+                </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="10,000"
@@ -172,7 +192,9 @@ export const FinancialInformation: React.FC<{
             name="fromDate"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Date of entry*</FormLabel>
+                <FormLabel>
+                  {dictionary.userJourney.financialInformation.dateOfEntry}
+                </FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -217,7 +239,9 @@ export const FinancialInformation: React.FC<{
             name="toDate"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Date of departure*</FormLabel>
+                <FormLabel>
+                  {dictionary.userJourney.financialInformation.dateOfDeparture}
+                </FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -262,10 +286,10 @@ export const FinancialInformation: React.FC<{
               variant="outline"
               onClick={goPreviousAction}
             >
-              Back
+              {dictionary.userJourney.back}
             </Button>
             <Button className="w-full md:w-1/6" type="submit">
-              Next
+              {dictionary.userJourney.next}
             </Button>
           </div>
         </form>

@@ -10,6 +10,7 @@ import {
 import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import AIProgressDialog from '@/components/AIProgressDialog';
 import { useFieldArray, useForm } from 'react-hook-form';
+import { Dictionary } from '@/app/[lang]/dictionaries';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FILE_UPLOAD_TYPE } from '@/lib/static-data';
 import { fileUploadSchema } from '@/lib/schemas';
@@ -24,9 +25,14 @@ type UploadFilesProps = {
     files: Array<{ file: File; documentType: string }>,
   ) => Promise<void>;
   goPreviousAction: () => void;
+  dictionary: Dictionary;
 };
 
-const FileUpload = ({ onUploadAction, goPreviousAction }: UploadFilesProps) => {
+const FileUpload = ({
+  onUploadAction,
+  goPreviousAction,
+  dictionary,
+}: UploadFilesProps) => {
   const [dragActive, setDragActive] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -99,9 +105,11 @@ const FileUpload = ({ onUploadAction, goPreviousAction }: UploadFilesProps) => {
               onDrop={handleDrop}
             >
               <Upload className="w-10 h-10 mx-auto mb-4 text-gray-400" />
-              <p className="text-lg mb-2">Drag and Drop file here or</p>
+              <p className="text-lg mb-2">
+                {dictionary.userJourney.uploadDocuments.dragAndDrop}
+              </p>
               <label className="cursor-pointer text-blue-500 hover:text-blue-600">
-                Choose file
+                {dictionary.userJourney.uploadDocuments.chooseFile}
                 <input
                   type="file"
                   className="hidden"
@@ -111,11 +119,11 @@ const FileUpload = ({ onUploadAction, goPreviousAction }: UploadFilesProps) => {
                 />
               </label>
               <p className="mt-2 text-sm text-gray-500">
-                Supported formats: PDF, JPEG, PNG, JPG
+                {dictionary.userJourney.uploadDocuments.supportedFormat}
               </p>
               <p className="text-sm text-gray-500">Maximum size: 25MB</p>
               <p className="text-sm text-black font-bold">
-                Upload at least 5 files to continue
+                {dictionary.userJourney.uploadDocuments.minimumUpload}
               </p>
             </div>
           </div>
@@ -179,7 +187,7 @@ const FileUpload = ({ onUploadAction, goPreviousAction }: UploadFilesProps) => {
               variant="outline"
               onClick={goPreviousAction}
             >
-              Back
+              {dictionary.userJourney.back}
             </Button>
             {fields.length >= 5 && (
               <Button type="submit" className="w-full md:w-1/6">
@@ -188,7 +196,7 @@ const FileUpload = ({ onUploadAction, goPreviousAction }: UploadFilesProps) => {
             )}
           </div>
         </form>
-        {isUploading && <AIProgressDialog />}
+        {isUploading && <AIProgressDialog dictionary={dictionary} />}
       </Form>
     </Card>
   );

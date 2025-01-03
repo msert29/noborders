@@ -1,0 +1,76 @@
+{
+  "landing": {
+    "scrollTitle": "Alimenté par la technologie avancée de l'IA",
+    "title": "Prédisez le résultat de votre visa avec la précision de l'IA",
+    "subTitle": "Prédictions avancées alimentées par l'IA pour les demandes de visa touristique pour le Royaume-Uni et Schengen.",
+    "enterEmail": "Entrez votre email",
+    "joinWaitlist": "Rejoindre la liste d'attente",
+    "aiPowered": {
+      "title": "Analyse alimentée par l'IA",
+      "text": "Des algorithmes d'apprentissage automatique avancés analysent les données de votre demande."
+    },
+    "accuracy": {
+      "title": "Précision de 95%",
+      "text": "Précision élevée des prédictions basée sur des données historiques étendues. Conseils pour améliorer vos chances."
+    },
+    "results": {
+      "title": "Résultat instantané",
+      "text": "Obtenez votre prédiction de demande de visa en quelques secondes, pas en plusieurs jours."
+    },
+    "secure": {
+      "title": "Sécurisé",
+      "text": "Vos données sont cryptées et protégées par une sécurité de niveau entreprise."
+    },
+    "joinTitle": "Rejoignez les responsables et contributeurs de la plus grande plateforme de prédiction de visas",
+    "ftaHeader": "Soyez parmi les premiers à accéder à notre plateforme de prédiction de visas alimentée par l'IA. Les premiers membres bénéficient d'avantages exclusifs et d'un accès prioritaire aux nouvelles fonctionnalités.",
+    "thanksForJoining": "Merci de rejoindre notre liste d'attente, vous recevrez des mises à jour dès notre lancement 🚀",
+    "requestEarlyAccess": "Demander un accès anticipé",
+    "privacy": "Confidentialité",
+    "terms": "Conditions",
+    "contact": "Contact"
+  },
+  "userJourney": {
+    "back": "Retour",
+    "next": "Suivant",
+    "viewResults": "Voir les résultats",
+    "personalInformation": {
+      "title": "Informations personnelles",
+      "applyingFor": "Pour quel pays postulez-vous ? *",
+      "applyingForPlaceholder": "Sélectionnez votre pays",
+      "nationality": "Quelle est votre nationalité ? *",
+      "nationalityPlaceholder": "Sélectionnez le pays",
+      "fullName": "Nom complet *",
+      "gender": "Genre *",
+      "genderPlaceholder": "Sélectionnez votre genre",
+      "age": "Âge *",
+      "address": "Détails de l'adresse",
+      "previousApproval": "Avez-vous déjà détenu un visa du Royaume-Uni, de l'UE ou des États-Unis ? *",
+      "previousRejection": "Avez-vous déjà été rejeté par le Royaume-Uni, l'UE ou les États-Unis ?"
+    },
+    "financialInformation": {
+      "title": "Informations financières",
+      "employmentType": "Type d'emploi *",
+      "employmentTypePlaceholder": "Sélectionnez le type d'emploi",
+      "currency": "Sélectionnez votre devise *",
+      "monthlyIncome": "Votre revenu brut mensuel*",
+      "monthlyExpenditure": "Votre dépense mensuelle*",
+      "savings": "Avez-vous des économies ? *",
+      "dateOfEntry": "Date d'entrée *",
+      "dateOfDeparture": "Date de départ *"
+    },
+    "uploadDocuments": {
+      "title": "Télécharger des documents",
+      "dragAndDrop": "Glissez et déposez le fichier ici ou",
+      "chooseFile": "Choisir un fichier",
+      "supportedFormat": "Formats supportés : PDF, JPEG, PNG, JPG\n\nTaille maximale : 25 Mo",
+      "minimumUpload": "Téléchargez au moins 5 fichiers pour continuer\n\n"
+    },
+    "submission": {
+      "title": "Soumission",
+      "reviewPersonal": "Vérification de vos informations personnelles",
+      "reviewFinancial": "Vérification de vos informations financières",
+      "reviewDocuments": "Vérification de vos documents",
+      "outcome": "Détermination du résultat possible de votre visa"
+    }
+  }
+}

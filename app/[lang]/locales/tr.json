@@ -1,0 +1,76 @@
+{
+  "landing": {
+    "scrollTitle": "Gelişmiş yapay zeka teknolojisiyle güçlendirilmiş",
+    "title": "Vize sonucunuzu yapay zeka doğruluğuyla tahmin edin",
+    "subTitle": "Birleşik Krallık ve Schengen turist vizesi başvuruları için gelişmiş yapay zeka destekli tahminler.",
+    "enterEmail": "E-posta adresinizi girin",
+    "joinWaitlist": "Bekleme listesine katıl",
+    "aiPowered": {
+      "title": "Yapay Zeka Destekli Analiz",
+      "text": "Gelişmiş makine öğrenimi algoritmaları başvuru verilerinizi analiz eder."
+    },
+    "accuracy": {
+      "title": "%95 Doğruluk",
+      "text": "Kapsamlı tarihsel verilere dayalı yüksek doğrulukla tahminler. Şansınızı artırma ipuçları."
+    },
+    "results": {
+      "title": "Anında sonuç",
+      "text": "Vize başvurusu tahmininizi saniyeler içinde, günler değil."
+    },
+    "secure": {
+      "title": "Güvenli",
+      "text": "Verileriniz, kurumsal düzeyde güvenlik ile şifrelenmiş ve korunmuştur."
+    },
+    "joinTitle": "Vize tahmini platformunun en büyük geliştiricileri ve katkı sağlayıcılarına katılın",
+    "ftaHeader": "Yapay zeka destekli vize tahmini platformumuza ilk erişimi sağlayanlardan biri olun. Erken üyeler, özel avantajlar ve yeni özelliklere öncelikli erişim kazanır.",
+    "thanksForJoining": "Bekleme listesine katıldığınız için teşekkürler, lansmanımızda güncellemeler alacaksınız 🚀",
+    "requestEarlyAccess": "Erken erişim talep et",
+    "privacy": "Gizlilik",
+    "terms": "Şartlar",
+    "contact": "İletişim"
+  },
+  "userJourney": {
+    "back": "Geri",
+    "next": "Sonraki",
+    "viewResults": "Sonuçları Görüntüle",
+    "personalInformation": {
+      "title": "Kişisel Bilgiler",
+      "applyingFor": "Hangi ülkeye başvuruyorsunuz? *",
+      "applyingForPlaceholder": "Ülkenizi seçin",
+      "nationality": "Hangi uyruksunuz? *",
+      "nationalityPlaceholder": "Ülkenizi seçin",
+      "fullName": "Tam adınız *",
+      "gender": "Cinsiyet *",
+      "genderPlaceholder": "Cinsiyetinizi seçin",
+      "age": "Yaş *",
+      "address": "Adres bilgileri",
+      "previousApproval": "Daha önce Birleşik Krallık, AB veya ABD'den vize aldınız mı? *",
+      "previousRejection": "Daha önce Birleşik Krallık, AB veya ABD'den reddedildiniz mi?"
+    },
+    "financialInformation": {
+      "title": "Mali Bilgiler",
+      "employmentType": "Çalışma türü *",
+      "employmentTypePlaceholder": "Çalışma türünü seçin",
+      "currency": "Para biriminizi seçin *",
+      "monthlyIncome": "Aylık brüt geliriniz *",
+      "monthlyExpenditure": "Aylık harcamanız *",
+      "savings": "Herhangi birikiminiz var mı? *",
+      "dateOfEntry": "Giriş tarihi *",
+      "dateOfDeparture": "Çıkış tarihi *"
+    },
+    "uploadDocuments": {
+      "title": "Belgeleri Yükle",
+      "dragAndDrop": "Dosyayı buraya sürükleyip bırakın veya",
+      "chooseFile": "Dosya seç",
+      "supportedFormat": "Desteklenen formatlar: PDF, JPEG, PNG, JPG\n\nMaksimum boyut: 25MB",
+      "minimumUpload": "Devam etmek için en az 5 dosya yükleyin\n\n"
+    },
+    "submission": {
+      "title": "Başvuru",
+      "reviewPersonal": "Kişisel bilgilerinizi gözden geçirme",
+      "reviewFinancial": "Mali bilgilerinizi gözden geçirme",
+      "reviewDocuments": "Belgelerinizi doğrulama",
+      "outcome": "Vize sonucu tahminini belirleme"
+    }
+  }
+}

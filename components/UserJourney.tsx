@@ -10,9 +10,11 @@ import {
 } from '@/lib/schemas';
 import { FinancialInformation } from '@/components/FinancialInformationForm';
 import { PersonalInformation } from '@/components/PersonalInformation';
+import { Dictionary } from '@/app/[lang]/dictionaries';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import FileUpload from '@/components/FileUpload';
+import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
 import { cn } from '@/lib/utils';
@@ -42,16 +44,19 @@ type VisaApplicationFormProps = {
   analyseAndUpload: (
     data: AnalyseAndUploadProps,
   ) => Promise<AnalyseAndUploadResult>;
+  dictionary: Dictionary;
 };
 
 const VisaApplicationForm: React.FC<VisaApplicationFormProps> = ({
   analyseAndUpload,
+  dictionary,
 }) => {
   const router = useRouter();
   const [uuid, setUUID] = useState<string | null>(null);
   const [step, setStep] = useState(1);
 
   const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   const [personalInformation, setPersonalInformation] =
     useState<PersonalInformationType>({
@@ -80,11 +85,11 @@ const VisaApplicationForm: React.FC<VisaApplicationFormProps> = ({
     if (!searchParams?.get('uuid') || searchParams?.get('uuid') === null) {
       const uuidValue = uuidv4();
       setUUID(uuidValue);
-      router.push(`/upload?uuid=${uuidValue}`);
+      router.push(`${pathname}?uuid=${uuidValue}`);
     } else {
       const uuidValue = searchParams?.get('uuid');
       setUUID(uuidValue);
-      router.push(`/upload?uuid=${uuidValue}`);
+      router.push(`${pathname}?uuid=${uuidValue}`);
     }
   }, []);
 
@@ -102,7 +107,7 @@ const VisaApplicationForm: React.FC<VisaApplicationFormProps> = ({
     }
 
     const computedQueryParams = buildQueryParams(step || '1');
-    router.push(`/upload?${computedQueryParams}`);
+    router.push(`${pathname}?${computedQueryParams}`);
   }, [personalInformation, financialInformation]);
 
   const buildQueryParams = (step: string): string => {
@@ -180,7 +185,7 @@ const VisaApplicationForm: React.FC<VisaApplicationFormProps> = ({
                     1
                   </div>
                   <span className="text-sm font-medium">
-                    Personal Information
+                    {dictionary.userJourney.personalInformation.title}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -195,7 +200,7 @@ const VisaApplicationForm: React.FC<VisaApplicationFormProps> = ({
                     2
                   </div>
                   <span className="text-sm text-muted-foreground">
-                    Financial Information
+                    {dictionary.userJourney.financialInformation.title}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -210,7 +215,7 @@ const VisaApplicationForm: React.FC<VisaApplicationFormProps> = ({
                     3
                   </div>
                   <span className="text-sm text-muted-foreground">
-                    Upload Documents
+                    {dictionary.userJourney.uploadDocuments.title}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -225,7 +230,7 @@ const VisaApplicationForm: React.FC<VisaApplicationFormProps> = ({
                     4
                   </div>
                   <span className="text-sm text-muted-foreground">
-                    Submission
+                    {dictionary.userJourney.submission.title}
                   </span>
                 </div>
               </div>
@@ -240,18 +245,21 @@ const VisaApplicationForm: React.FC<VisaApplicationFormProps> = ({
         {step === 1 && (
           <PersonalInformation
             setPersonalInformationAction={handlePersonalInformationFormSubmit}
+            dictionary={dictionary}
           />
         )}
         {step === 2 && (
           <FinancialInformation
             setFinancialInformationAction={handleFinancialInformationFormSubmit}
             goPreviousAction={goToPreviousStep}
+            dictionary={dictionary}
           />
         )}
         {step === 3 && (
           <FileUpload
             onUploadAction={handleFileUploadFormSubmit}
             goPreviousAction={goToPreviousStep}
+            dictionary={dictionary}
           />
         )}
       </div>
