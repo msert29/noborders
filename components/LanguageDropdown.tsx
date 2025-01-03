@@ -18,7 +18,23 @@ const languages = [
   { code: 'hi', name: 'हिंदी', flag: '🇮🇳' },
 ];
 
-export const LanguageSelector = ({ pathname }: { pathname: string }) => {
+export type Variant =
+  | 'link'
+  | 'default'
+  | 'destructive'
+  | 'outline'
+  | 'secondary'
+  | 'ghost'
+  | null
+  | undefined;
+
+export const LanguageSelector = ({
+  pathname,
+  variant,
+}: {
+  pathname: string;
+  variant: Variant;
+}) => {
   // Get base path without locale
   const getBasePathWithoutLocale = (path: string) => {
     const segments = path.split('/');
@@ -29,7 +45,7 @@ export const LanguageSelector = ({ pathname }: { pathname: string }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="w-9 px-0">
+        <Button variant={variant} size="icon" className="w-9 px-0">
           <Languages className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>

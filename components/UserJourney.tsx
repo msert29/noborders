@@ -237,7 +237,7 @@ const VisaApplicationForm: React.FC<VisaApplicationFormProps> = ({
               </div>
             </div>
             <div className="ml-auto">
-              <LanguageDropdown pathname={pathname as string} />
+              <LanguageDropdown pathname={pathname as string} variant="ghost" />
             </div>
           </div>
           <div className="w-full h-2 bg-muted rounded-full">
