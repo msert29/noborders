@@ -13,7 +13,6 @@ import { PersonalInformation } from '@/components/PersonalInformation';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import FileUpload from '@/components/FileUpload';
-// import FileUpload from '@/components/FileUpload';
 import { useRouter } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
 import { cn } from '@/lib/utils';
@@ -152,6 +151,7 @@ const VisaApplicationForm: React.FC<VisaApplicationFormProps> = ({
       personalInformation: personalInformation,
       financialInformation: financialInformation,
     });
+    router.push(`result/${uuid}`);
   };
 
   const goToNextStep = () => {
@@ -254,7 +254,6 @@ const VisaApplicationForm: React.FC<VisaApplicationFormProps> = ({
             goPreviousAction={goToPreviousStep}
           />
         )}
-        {step === 4 && <h1>Payment Form</h1>}
       </div>
     </div>
   );

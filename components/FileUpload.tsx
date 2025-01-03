@@ -28,7 +28,7 @@ type UploadFilesProps = {
 
 const FileUpload = ({ onUploadAction, goPreviousAction }: UploadFilesProps) => {
   const [dragActive, setDragActive] = useState(false);
-  const [isUploading, setIsUploading] = useState(true);
+  const [isUploading, setIsUploading] = useState(false);
 
   const form = useForm<z.infer<typeof fileUploadSchema>>({
     resolver: zodResolver(fileUploadSchema),

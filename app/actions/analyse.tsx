@@ -36,9 +36,28 @@ async function saveVisaApplication(
       ?.toISOString()
       .substring(0, 10);
     const toDate = financialInformation.toDate?.toISOString().substring(0, 10);
-    await prisma.visaApplication.create({
-      data: {
-        uuid: uuid,
+    await prisma.visaApplication.upsert({
+      where: { uuid },
+      update: {
+        visaCountry: personalInformation.visaCountry,
+        name: personalInformation.name,
+        gender: personalInformation.gender,
+        age: personalInformation.age,
+        address: personalInformation.address,
+        nationality: personalInformation.nationality,
+        previousVisaFromUkEuUs: personalInformation.previous_visa_from_uk_eu_us,
+        previousRejectionFromUkEuUs:
+          personalInformation.previous_rejection_from_uk_eu_us,
+        employmentType: financialInformation.employmentType,
+        currency: financialInformation.currency,
+        income: financialInformation.income,
+        expenditure: financialInformation.expenditure,
+        savings: financialInformation.savings,
+        fromDate: fromDate ?? '',
+        toDate: toDate ?? '',
+      },
+      create: {
+        uuid,
         visaCountry: personalInformation.visaCountry,
         name: personalInformation.name,
         gender: personalInformation.gender,
@@ -117,8 +136,28 @@ export async function analyseAndUpload(
       };
     });
 
-    const results = await Promise.all(uploadPromises);
-    return { success: true, uploads: results };
+    await Promise.all(uploadPromises);
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3 * 60 * 1000); // 3 minutes
+
+    try {
+      const response = await fetch(
+        `${process.env.AWS_LAMBDA_URL}/vet-application/${data.uuid}`,
+        {
+          method: 'GET',
+          signal: controller.signal,
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to trigger analysis: ${response.statusText}`);
+      }
+    } finally {
+      clearTimeout(timeout);
+    }
+
+    return { success: true };
   } catch (error) {
     console.error('Upload error:', error);
     return { success: false, error: 'Upload failed' };

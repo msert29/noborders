@@ -26,7 +26,7 @@ export default function AIProgressDialog() {
         setIsComplete(true);
         return prevStep;
       });
-    }, 3000); // Change step every 3 seconds
+    }, 30000); // Change step every 30 seconds
 
     return () => clearInterval(timer);
   }, []);
